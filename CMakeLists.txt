@@ -1,0 +1,12 @@
+cmake_minimum_required(VERSION 3.21)
+project(Diff)
+
+set(CMAKE_CXX_STANDARD 14)
+
+include_directories(include)
+
+add_executable(Diff
+        include/Diff.h
+        src/Diff_Dump.cpp
+        src/Diff_Main.cpp
+        src/Diff_Tree_Func.cpp)

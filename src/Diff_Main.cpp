@@ -7,16 +7,20 @@ int main()
     char* string = (char*) calloc(MAX_FORMULA_LEN, sizeof(char));
     ScanString(string);
 
-//    tnode* tokens_array = (tnode*) calloc(MAX_FORMULA_LEN, sizeof(tnode));
-//    LexicalAnalysis(string, tokens_array);
     Node* root = GetG(string);
-    if (root == nullptr) {
-        free(string);
-        return 0;
-    }
+    CHECK_ROOT(root, string);
+    TreeDump(root, "GetG");
 
-    TreeDump(root, __FUNCTION__ );
+    Simplify(root);
+    TreeDump(root, "Simplify");
+
+    Node* diff_root = Diff(root);
+    TreeDump(diff_root, "Diff");
+
+    Simplify(diff_root);
+    TreeDump(diff_root, "Simplify");
 
     TreeDtor(root);
+    TreeDtor(diff_root);
     free(string);
 }

@@ -50,14 +50,18 @@ int RecursiveTreeDump(Node* node, FILE* dump_fp, int parents_num, bool left_node
     num_of_nodes++;
     int node_number = num_of_nodes;
 
-    if (node->type == OP) {
+    if (node->type == OP || node->type == VAR) {
         fprintf(dump_fp, "\tNode%d [shape = record, label = "
-                         "\" {<data> data: %c | {<left> left| <right> right}} \"];\n",
+                         "\" {<data> %c | {<left> L| <right> R}} \"];\n",
                          node_number, *(char*)node->data);
     } else if (node->type == NUM) {
         fprintf(dump_fp, "\tNode%d [shape = record, label = "
-                         "\" {<data> data: %0.2f | {<left> NULL | <right> NULL}} \"];\n",
+                         "\" {<data> %0.2f | {<left> - | <right> -}} \"];\n",
                          node_number, *(double*) node->data);
+    } else if (node->type == OP || node->type == VAR) {
+        fprintf(dump_fp, "\tNode%d [shape = record, label = "
+                         "\" {<data> %c | {<left> -| <right> -}} \"];\n",
+                         node_number, *(char *) node->data);
     }
 
     if (num_of_nodes != 0){

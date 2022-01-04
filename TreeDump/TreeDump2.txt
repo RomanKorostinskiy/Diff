@@ -1,0 +1,7 @@
+digraph Dump
+{
+	"After function: Diff"
+
+	Node0 [shape = record, label = " {<data> 0.00 | {<left> - | <right> -}} "];
+
+}

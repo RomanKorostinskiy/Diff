@@ -1,16 +1,8 @@
 #include "../include/Diff.h"
 
-int ScanString(char* str)
+Node* GetG(const char* string)
 {
-    printf("Enter the formula you want to differentiate:\n");
-    scanf("%s", str);
-
-    return 0;
-}
-
-Node* GetG(const char* str)
-{
-    s = str;
+    s = string;
 
     Node* root = GetE();
     CHECK_NODE(root);
@@ -61,6 +53,10 @@ Node* GetP()
         CHECK_NODE(e_node);
         Require(')');
         return e_node;
+    } else if (*s == 'x') {
+        Node* id_node = GetId();
+        CHECK_NODE(id_node);
+        return id_node;
     } else {
         Node* n_node = GetN();
         CHECK_NODE(n_node);
@@ -92,6 +88,20 @@ Node* GetN()
     return CreateNode(NUM, &val, nullptr, nullptr);
 }
 
+Node* GetId()
+{
+    char var = 'x';
+
+    if (*s != 'x') {
+        SyntaxError(__FUNCTION__);
+        return nullptr;
+    }
+    else {
+        s++;
+        return CreateNode(VAR, &var, nullptr, nullptr);
+    }
+}
+
 Node* CreateNode(int type, void* data, Node* left, Node* right)
 {
     Node* new_node = (Node*)calloc(1, sizeof(Node));
@@ -100,7 +110,7 @@ Node* CreateNode(int type, void* data, Node* left, Node* right)
     if (type == NUM) {
         new_node->data = (double*) calloc(1, sizeof(double));
         *(double*) new_node->data = *(double*) data;
-    } else if (type == OP) {
+    } else if (type == OP || type == VAR) {
         new_node->data = (char*) calloc(1, sizeof(char));
         *(char*) new_node->data = *(char*) data;
     }
@@ -111,24 +121,30 @@ Node* CreateNode(int type, void* data, Node* left, Node* right)
     return new_node;
 }
 
-int Require(const char sign)
+Node* CopyNode(Node* node)
 {
-    if (*s == sign) {
-        s++;
-    }
-    else {
-        SyntaxError(__FUNCTION__);
-        printf("Required sign %c\n", sign);
-        return SYNTAX_ERROR;
+    Node* new_node = (Node*)calloc(1, sizeof(Node));
+    memcpy(new_node, node, sizeof(Node));
+
+    if (node->type == NUM) {
+        new_node->data = (double*) calloc(1, sizeof(double));
+        *(double*) new_node->data = *(double*)node->data;
+    } else if (node->type == OP || node->type == VAR) {
+        new_node->data = (char*) calloc(1, sizeof(char));
+        *(char*) new_node->data = *(char*)node->data;
     }
 
-    return 0;
+    return new_node;
 }
 
-int SyntaxError(const char* function)
+int FreeChildNodes(Node* node)
 {
-    printf("SyntaxError: in function %s\n", function);
-    return SYNTAX_ERROR;
+    TreeDtor(node->left);
+    TreeDtor(node->right);
+    node->left  = nullptr;
+    node->right = nullptr;
+
+    return 0;
 }
 
 int TreeDtor(Node* node)

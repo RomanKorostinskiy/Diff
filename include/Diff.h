@@ -30,15 +30,21 @@ enum Errors {
 
 extern const char* s;
 
-#define CHECK_NODE(value)\
-do{                      \
-    if(value == nullptr) \
-        return nullptr;  \
-}while(0)
+#define CHECK_ROOT(root, string)   \
+do{                                \
+    if(root == nullptr) {          \
+        free(string);              \
+        return 0;                  \
+    }                              \
+} while(0)
+
+#define CHECK_NODE(node)    \
+do{                         \
+    if(node == nullptr)     \
+        return nullptr;     \
+} while(0)
 
 //---------Diff_Tree_Func---------
-
-int ScanString(char* formula);
 
 int LexicalAnalysis(char* string, Node* tokens_array); //дроп
 
@@ -52,15 +58,31 @@ Node* GetP();
 
 Node* GetN();
 
+Node* GetId();
+
 Node* CreateNode(int type, void* data, Node* left, Node* right);
+
+Node* CopyNode(Node* node);
+
+int FreeChildNodes(Node* node);
 
 int TreeDtor(Node* node);
 
-//---------Diff_Errors--------------
+//---------Diff_Differentiate_Func---------
+
+Node* Diff(Node* node);
+
+int Simplify(Node* node);
+
+//---------Diff_Errors_Func--------------
 
 int Require(const char sign);
 
 int SyntaxError(const char* function);
+
+//---------Diff_Text_Func--------------
+
+int ScanString(char* str);
 
 //---------Diff_Dump--------------
 

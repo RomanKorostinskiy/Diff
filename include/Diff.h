@@ -5,14 +5,13 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-typedef struct tnode
-{
+typedef struct Node {
     int type;
     void* data;
 
-    tnode* left;
-    tnode* right;
-}tnode;
+    Node* left;
+    Node* right;
+}Node;
 
 enum Constants {
     ROOT = -1,
@@ -25,28 +24,52 @@ enum NodeTypes {
     OP  = 3,
 };
 
-char* string = (char*) calloc(MAX_FORMULA_LEN, sizeof(char));
+enum Errors {
+    SYNTAX_ERROR = 1,
+};
+
+extern const char* s;
+
+#define CHECK_NODE(value)\
+do{                      \
+    if(value == nullptr) \
+        return nullptr;  \
+}while(0)
 
 //---------Diff_Tree_Func---------
 
 int ScanString(char* formula);
 
-int LexicalAnalysis(char* string, tnode* tokens_array); //дроп
+int LexicalAnalysis(char* string, Node* tokens_array); //дроп
 
-tnode* GetN();
+Node* GetG(const char* string);
 
-tnode* CreateNode(int type, void* data, tnode* left, tnode* right);
+Node* GetE();
 
-int TreeDtor(tnode* node);
+Node* GetT();
+
+Node* GetP();
+
+Node* GetN();
+
+Node* CreateNode(int type, void* data, Node* left, Node* right);
+
+int TreeDtor(Node* node);
+
+//---------Diff_Errors--------------
+
+int Require(const char sign);
+
+int SyntaxError(const char* function);
 
 //---------Diff_Dump--------------
 
-int TreeDump(tnode* root, const char* current_function);
+int TreeDump(Node* root, const char* current_function);
 
-int MakeGraphDumpTxt(tnode* root, const char* current_function, int dump_cnt);
+int MakeGraphDumpTxt(Node* root, const char* current_function, int dump_cnt);
 
 int MakePngFromTxt(int dump_cnt);
 
-int RecursiveTreeDump(tnode* node, FILE* dump_fp, int parents_num, bool left_node);
+int RecursiveTreeDump(Node* node, FILE* dump_fp, int parents_num, bool left_node);
 
 char* DumpFileName(int dump_cnt, const char* format);

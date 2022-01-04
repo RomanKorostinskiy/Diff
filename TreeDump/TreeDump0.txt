@@ -1,0 +1,35 @@
+digraph Dump
+{
+	"After function: main"
+
+	Node0 [shape = record, label = " {<data> data: / | {<left> left| <right> right}} "];
+	Node1 [shape = record, label = " {<data> data: + | {<left> left| <right> right}} "];
+	Node0:<left> -> Node1
+	Node2 [shape = record, label = " {<data> data: + | {<left> left| <right> right}} "];
+	Node1:<left> -> Node2
+	Node3 [shape = record, label = " {<data> data: 2.00 | {<left> NULL | <right> NULL}} "];
+	Node2:<left> -> Node3
+	Node4 [shape = record, label = " {<data> data: 3.00 | {<left> NULL | <right> NULL}} "];
+	Node2:<right> -> Node4
+	Node5 [shape = record, label = " {<data> data: 5.00 | {<left> NULL | <right> NULL}} "];
+	Node1:<right> -> Node5
+	Node6 [shape = record, label = " {<data> data: + | {<left> left| <right> right}} "];
+	Node0:<right> -> Node6
+	Node7 [shape = record, label = " {<data> data: + | {<left> left| <right> right}} "];
+	Node6:<left> -> Node7
+	Node8 [shape = record, label = " {<data> data: 5.00 | {<left> NULL | <right> NULL}} "];
+	Node7:<left> -> Node8
+	Node9 [shape = record, label = " {<data> data: 6.00 | {<left> NULL | <right> NULL}} "];
+	Node7:<right> -> Node9
+	Node10 [shape = record, label = " {<data> data: * | {<left> left| <right> right}} "];
+	Node6:<right> -> Node10
+	Node11 [shape = record, label = " {<data> data: 4.00 | {<left> NULL | <right> NULL}} "];
+	Node10:<left> -> Node11
+	Node12 [shape = record, label = " {<data> data: + | {<left> left| <right> right}} "];
+	Node10:<right> -> Node12
+	Node13 [shape = record, label = " {<data> data: 2.00 | {<left> NULL | <right> NULL}} "];
+	Node12:<left> -> Node13
+	Node14 [shape = record, label = " {<data> data: 4.00 | {<left> NULL | <right> NULL}} "];
+	Node12:<right> -> Node14
+
+}

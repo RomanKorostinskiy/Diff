@@ -1,6 +1,6 @@
 #include "../include/Diff.h"
 
-int TreeDump(tnode* root, const char* current_function)
+int TreeDump(Node* root, const char* current_function)
 {
     static int dump_cnt = 0;
 
@@ -13,7 +13,7 @@ int TreeDump(tnode* root, const char* current_function)
     return dump_cnt;
 }
 
-int MakeGraphDumpTxt(tnode* root, const char* current_function, int dump_cnt)
+int MakeGraphDumpTxt(Node* root, const char* current_function, int dump_cnt)
 {
     FILE* dump_fp = nullptr;
 
@@ -42,7 +42,7 @@ int MakeGraphDumpTxt(tnode* root, const char* current_function, int dump_cnt)
     return 0;
 }
 
-int RecursiveTreeDump(tnode* node, FILE* dump_fp, int parents_num, bool left_node)
+int RecursiveTreeDump(Node* node, FILE* dump_fp, int parents_num, bool left_node)
 {
     static int num_of_nodes = -1;
     if (parents_num == ROOT)
@@ -50,21 +50,21 @@ int RecursiveTreeDump(tnode* node, FILE* dump_fp, int parents_num, bool left_nod
     num_of_nodes++;
     int node_number = num_of_nodes;
 
-    if (node->right != nullptr && node->left != nullptr) {
+    if (node->type == OP) {
         fprintf(dump_fp, "\tNode%d [shape = record, label = "
-                         "\" {<data> data: %s? | {<yes> да | <no> нет}} \"];\n",
-                         node_number, node->data);
-    } else {
+                         "\" {<data> data: %c | {<left> left| <right> right}} \"];\n",
+                         node_number, *(char*)node->data);
+    } else if (node->type == NUM) {
         fprintf(dump_fp, "\tNode%d [shape = record, label = "
-                         "\" {<data> data: %s | {<yes> NULL | <no> NULL}} \"];\n",
-                         node_number, node->data);
+                         "\" {<data> data: %0.2f | {<left> NULL | <right> NULL}} \"];\n",
+                         node_number, *(double*) node->data);
     }
 
     if (num_of_nodes != 0){
         if (left_node)
-            fprintf(dump_fp, "\tNode%d:<yes> -> Node%d\n", parents_num, node_number); //нужно сохранять номер родителя
+            fprintf(dump_fp, "\tNode%d:<left> -> Node%d\n", parents_num, node_number); //нужно сохранять номер родителя
         else
-            fprintf(dump_fp, "\tNode%d:<no> -> Node%d\n", parents_num, node_number);
+            fprintf(dump_fp, "\tNode%d:<right> -> Node%d\n", parents_num, node_number);
     }
     if (node->right != nullptr && node->left != nullptr) {
         RecursiveTreeDump(node->left, dump_fp, node_number, true);

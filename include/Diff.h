@@ -6,16 +6,18 @@
 #include <ctype.h>
 
 typedef struct Node {
-    int type;
     void* data;
+    int type;
 
     Node* left;
     Node* right;
+
 }Node;
 
 enum Constants {
-    ROOT = -1,
+    ROOT            = -1,
     MAX_FORMULA_LEN = 1024,
+    FIRST_CALL      = -1
 };
 
 enum NodeTypes {
@@ -32,7 +34,7 @@ extern const char* s;
 
 #define CHECK_ROOT(root, string)   \
 do{                                \
-    if(root == nullptr) {          \
+    if((root) == nullptr) {        \
         free(string);              \
         return 0;                  \
     }                              \
@@ -40,7 +42,7 @@ do{                                \
 
 #define CHECK_NODE(node)    \
 do{                         \
-    if(node == nullptr)     \
+    if((node) == nullptr)   \
         return nullptr;     \
 } while(0)
 
@@ -72,7 +74,9 @@ int TreeDtor(Node* node);
 
 Node* Diff(Node* node);
 
-int Simplify(Node* node);
+int Simplify(Node* node, int* smpl_cnt);
+
+int LoopSimplify(Node* root);
 
 //---------Diff_Errors_Func--------------
 
@@ -82,7 +86,9 @@ int SyntaxError(const char* function);
 
 //---------Diff_Text_Func--------------
 
-int ScanString(char* str);
+int ScanFormula(char* str);
+
+int ScanString(char* array);
 
 //---------Diff_Dump--------------
 

@@ -5,22 +5,23 @@ const char* s = nullptr;
 int main()
 {
     char* string = (char*) calloc(MAX_FORMULA_LEN, sizeof(char));
-    ScanString(string);
+    ScanFormula(string);
 
     Node* root = GetG(string);
     CHECK_ROOT(root, string);
     TreeDump(root, "GetG");
 
-    Simplify(root);
-    TreeDump(root, "Simplify");
+    LoopSimplify(root);
 
     Node* diff_root = Diff(root);
     TreeDump(diff_root, "Diff");
 
-    Simplify(diff_root);
-    TreeDump(diff_root, "Simplify");
+    LoopSimplify(diff_root);
 
     TreeDtor(root);
     TreeDtor(diff_root);
     free(string);
+
+    //    printf("Node = %ld, Node* = %ld, void* = %ld, char = %ld", sizeof(Node), sizeof(Node*), sizeof(void*), sizeof(char));
+    return 0;
 }

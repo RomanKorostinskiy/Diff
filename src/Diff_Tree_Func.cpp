@@ -134,6 +134,11 @@ Node* CopyNode(Node* node)
         *(char*) new_node->data = *(char*)node->data;
     }
 
+    if (node->left != nullptr && node->right != nullptr) {
+        new_node->left = CopyNode(node->left);
+        new_node->right = CopyNode(node->right);
+    }
+
     return new_node;
 }
 

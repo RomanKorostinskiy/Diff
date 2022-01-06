@@ -33,25 +33,6 @@ int ScanString(char* array)
     return 0;
 }
 
-//int PrintTree(Node* node)
-//{
-//    if (node->left != nullptr && node->right != nullptr) {
-//        if (IS_SPEC_OP(node, '+') || IS_SPEC_OP(node, '-'))
-//            printf("(");
-//        PrintTree(node->left);
-//        printf("%c", *(char*)node->data);
-//        PrintTree(node->right);
-//        if (IS_SPEC_OP(node, '+') || IS_SPEC_OP(node, '-'))
-//            printf(")");
-//    } else if (IS_NUM(node)) {
-//        printf("%0.2f", *(double*)node->data);
-//    } else if (IS_VAR(node)) {
-//        printf("%c", *(char*)node->data);
-//    }
-//
-//    return 0;
-//}
-
 int PrintFormulaTex (Node* root) //TODO: сделать чтобы можно было вписывать все изменения формулы
 {
     static int res_cnt = 0;
@@ -83,12 +64,14 @@ int PrintFormulaTex (Node* root) //TODO: сделать чтобы можно б
 int PrintFormula(Node* node, FILE* fp)
 {
     if (node->left != nullptr && node->right != nullptr) {
-        if (IS_SPEC_OP(node, '+') || IS_SPEC_OP(node, '-'))
-            PrintExpression(node, fp);
-        else if (IS_SPEC_OP(node, '*'))
+        if (IS_SPEC_OP(node, '*'))
             PrintMultiplication(node, fp);
         else if (IS_SPEC_OP(node, '/'))
             PrintDivision(node, fp);
+        else if (IS_SPEC_OP(node, '+') || IS_SPEC_OP(node, '-'))
+            PrintExpression(node, fp);
+        else
+            PrintOtherOperators(node, fp);
     } else if (IS_NUM(node)) {
         if (*(double*)node->data < 0)
             fprintf(fp, "{(%0.2f)}", *(double*)node->data);
@@ -101,35 +84,6 @@ int PrintFormula(Node* node, FILE* fp)
         PrintFormula(node->left, fp);
         fprintf(fp, ")");
     }
-
-    return 0;
-}
-
-int PrintOperators(Node* node, FILE* fp)
-{
-    if (IS_SPEC_OP(node, '/'))
-        fprintf(fp, "\\frac{");
-    else if (IS_SPEC_OP(node, '+') || IS_SPEC_OP(node, '-'))
-        fprintf(fp, "(");
-
-    PrintFormula(node->left, fp);
-
-    if (IS_SPEC_OP(node, '/'))
-        fprintf(fp, "}");
-
-    if (IS_SPEC_OP(node, '*'))
-        fprintf(fp, "\\cdot ");
-    else if (IS_SPEC_OP(node, '/'))
-        fprintf(fp, "{");
-    else
-        fprintf(fp, "%c", *(char*)node->data);
-
-    PrintFormula(node->right, fp);
-
-    if (IS_SPEC_OP(node, '/'))
-        fprintf(fp, "}");
-    else if (IS_SPEC_OP(node, '+') || IS_SPEC_OP(node, '-'))
-        fprintf(fp, ")");
 
     return 0;
 }
@@ -163,6 +117,15 @@ int PrintDivision(Node* node, FILE* fp)
     fprintf(fp, "{");
     PrintFormula(node->right, fp);
     fprintf(fp, "}");
+
+    return 0;
+}
+
+int PrintOtherOperators(Node* node, FILE* fp)
+{
+    PrintFormula(node->left, fp);
+    fprintf(fp, "%c", *(char*)node->data);
+    PrintFormula(node->right, fp);
 
     return 0;
 }

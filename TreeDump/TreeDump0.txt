@@ -2,10 +2,12 @@ digraph Dump
 {
 	"After function: GetG"
 
-	Node0 [shape = record, label = " {<data> * | {<left> L| <right> R}} "];
-	Node1 [shape = record, label = " {<data> 1.00 | {<left> - | <right> -}} "];
+	Node0 [shape = record, label = " {<data> ln | {<left> L| <right> -}} "];
+	Node1 [shape = record, label = " {<data> ^ | {<left> L| <right> R}} "];
 	Node0:<left> -> Node1
-	Node2 [shape = record, label = " {<data> -1.00 | {<left> - | <right> -}} "];
-	Node0:<right> -> Node2
+	Node2 [shape = record, label = " {<data> x | {<left> -| <right> -}} "];
+	Node1:<left> -> Node2
+	Node3 [shape = record, label = " {<data> 2.00 | {<left> - | <right> -}} "];
+	Node1:<right> -> Node3
 
 }

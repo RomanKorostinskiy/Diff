@@ -56,6 +56,9 @@ Node* Diff(Node* node)
     } else if (IS_SPEC_FUNC(node, "exp")) {
         char op = '*';
         return CreateNode(OP, &op, Diff(node->left), CopyNode(node));
+    } else if (IS_SPEC_FUNC(node, "ln")) {
+        char op = '/';
+        return CreateNode(OP, &op, Diff(node->left), CopyNode(node->left));
     }
 
     return CopyNode(node);

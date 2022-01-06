@@ -91,7 +91,7 @@ int Require(const char sign);
 
 int SyntaxError(const char* function, const char* message);
 
-//---------Diff_Text_Func--------------
+//---------Diff_File&Text_Func--------------
 
 int ScanFormula(char* str);
 
@@ -103,13 +103,13 @@ int PrintFormulaTex (Node* root);
 
 int PrintFormula(Node* node, FILE* fp);
 
-int PrintOperators(Node* node, FILE* fp);
-
 int PrintExpression(Node* node, FILE* fp);
 
 int PrintMultiplication(Node* node, FILE* fp);
 
 int PrintDivision(Node* node, FILE* fp);
+
+int PrintOtherOperators(Node* node, FILE* fp);
 
 char* TexFileName(int res_cnt);
 

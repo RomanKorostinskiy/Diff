@@ -1,51 +1,141 @@
 digraph Dump
 {
-	"After function: Simplify"
+	"After function: Diff"
 
-	Node0 [shape = record, label = " {<data> - | {<left> L| <right> R}} "];
-	Node1 [shape = record, label = " {<data> + | {<left> L| <right> R}} "];
+	Node0 [shape = record, label = " {<data> + | {<left> L| <right> R}} "];
+	Node1 [shape = record, label = " {<data> / | {<left> L| <right> R}} "];
 	Node0:<left> -> Node1
-	Node2 [shape = record, label = " {<data> x | {<left> -| <right> -}} "];
+	Node2 [shape = record, label = " {<data> - | {<left> L| <right> R}} "];
 	Node1:<left> -> Node2
-	Node3 [shape = record, label = " {<data> x | {<left> -| <right> -}} "];
-	Node1:<right> -> Node3
-	Node4 [shape = record, label = " {<data> / | {<left> L| <right> R}} "];
-	Node0:<right> -> Node4
+	Node3 [shape = record, label = " {<data> * | {<left> L| <right> R}} "];
+	Node2:<left> -> Node3
+	Node4 [shape = record, label = " {<data> * | {<left> L| <right> R}} "];
+	Node3:<left> -> Node4
 	Node5 [shape = record, label = " {<data> / | {<left> L| <right> R}} "];
 	Node4:<left> -> Node5
-	Node6 [shape = record, label = " {<data> * | {<left> L| <right> R}} "];
+	Node6 [shape = record, label = " {<data> 1.00 | {<left> - | <right> -}} "];
 	Node5:<left> -> Node6
-	Node7 [shape = record, label = " {<data> * | {<left> L| <right> R}} "];
-	Node6:<left> -> Node7
-	Node8 [shape = record, label = " {<data> * | {<left> L| <right> R}} "];
-	Node7:<left> -> Node8
-	Node9 [shape = record, label = " {<data> 3.00 | {<left> - | <right> -}} "];
+	Node7 [shape = record, label = " {<data> x | {<left> -| <right> -}} "];
+	Node5:<right> -> Node7
+	Node8 [shape = record, label = " {<data> cos | {<left> L| <right> -}} "];
+	Node4:<right> -> Node8
+	Node9 [shape = record, label = " {<data> ln | {<left> L| <right> -}} "];
 	Node8:<left> -> Node9
 	Node10 [shape = record, label = " {<data> x | {<left> -| <right> -}} "];
-	Node8:<right> -> Node10
-	Node11 [shape = record, label = " {<data> 10.00 | {<left> - | <right> -}} "];
-	Node7:<right> -> Node11
-	Node12 [shape = record, label = " {<data> x | {<left> -| <right> -}} "];
-	Node6:<right> -> Node12
-	Node13 [shape = record, label = " {<data> - | {<left> L| <right> R}} "];
-	Node5:<right> -> Node13
-	Node14 [shape = record, label = " {<data> * | {<left> L| <right> R}} "];
+	Node9:<left> -> Node10
+	Node11 [shape = record, label = " {<data> * | {<left> L| <right> R}} "];
+	Node3:<right> -> Node11
+	Node12 [shape = record, label = " {<data> 2.00 | {<left> - | <right> -}} "];
+	Node11:<left> -> Node12
+	Node13 [shape = record, label = " {<data> ^ | {<left> L| <right> R}} "];
+	Node11:<right> -> Node13
+	Node14 [shape = record, label = " {<data> x | {<left> -| <right> -}} "];
 	Node13:<left> -> Node14
-	Node15 [shape = record, label = " {<data> 5.00 | {<left> - | <right> -}} "];
-	Node14:<left> -> Node15
-	Node16 [shape = record, label = " {<data> x | {<left> -| <right> -}} "];
-	Node14:<right> -> Node16
-	Node17 [shape = record, label = " {<data> 1.00 | {<left> - | <right> -}} "];
-	Node13:<right> -> Node17
-	Node18 [shape = record, label = " {<data> + | {<left> L| <right> R}} "];
-	Node4:<right> -> Node18
-	Node19 [shape = record, label = " {<data> * | {<left> L| <right> R}} "];
+	Node15 [shape = record, label = " {<data> 2.00 | {<left> - | <right> -}} "];
+	Node13:<right> -> Node15
+	Node16 [shape = record, label = " {<data> * | {<left> L| <right> R}} "];
+	Node2:<right> -> Node16
+	Node17 [shape = record, label = " {<data> sin | {<left> L| <right> -}} "];
+	Node16:<left> -> Node17
+	Node18 [shape = record, label = " {<data> ln | {<left> L| <right> -}} "];
+	Node17:<left> -> Node18
+	Node19 [shape = record, label = " {<data> x | {<left> -| <right> -}} "];
 	Node18:<left> -> Node19
-	Node20 [shape = record, label = " {<data> 17.00 | {<left> - | <right> -}} "];
-	Node19:<left> -> Node20
-	Node21 [shape = record, label = " {<data> x | {<left> -| <right> -}} "];
-	Node19:<right> -> Node21
-	Node22 [shape = record, label = " {<data> 2.00 | {<left> - | <right> -}} "];
-	Node18:<right> -> Node22
+	Node20 [shape = record, label = " {<data> + | {<left> L| <right> R}} "];
+	Node16:<right> -> Node20
+	Node21 [shape = record, label = " {<data> * | {<left> L| <right> R}} "];
+	Node20:<left> -> Node21
+	Node22 [shape = record, label = " {<data> 0.00 | {<left> - | <right> -}} "];
+	Node21:<left> -> Node22
+	Node23 [shape = record, label = " {<data> ^ | {<left> L| <right> R}} "];
+	Node21:<right> -> Node23
+	Node24 [shape = record, label = " {<data> x | {<left> -| <right> -}} "];
+	Node23:<left> -> Node24
+	Node25 [shape = record, label = " {<data> 2.00 | {<left> - | <right> -}} "];
+	Node23:<right> -> Node25
+	Node26 [shape = record, label = " {<data> * | {<left> L| <right> R}} "];
+	Node20:<right> -> Node26
+	Node27 [shape = record, label = " {<data> 2.00 | {<left> - | <right> -}} "];
+	Node26:<left> -> Node27
+	Node28 [shape = record, label = " {<data> * | {<left> L| <right> R}} "];
+	Node26:<right> -> Node28
+	Node29 [shape = record, label = " {<data> 2.00 | {<left> - | <right> -}} "];
+	Node28:<left> -> Node29
+	Node30 [shape = record, label = " {<data> * | {<left> L| <right> R}} "];
+	Node28:<right> -> Node30
+	Node31 [shape = record, label = " {<data> ^ | {<left> L| <right> R}} "];
+	Node30:<left> -> Node31
+	Node32 [shape = record, label = " {<data> x | {<left> -| <right> -}} "];
+	Node31:<left> -> Node32
+	Node33 [shape = record, label = " {<data> - | {<left> L| <right> R}} "];
+	Node31:<right> -> Node33
+	Node34 [shape = record, label = " {<data> 2.00 | {<left> - | <right> -}} "];
+	Node33:<left> -> Node34
+	Node35 [shape = record, label = " {<data> 1.00 | {<left> - | <right> -}} "];
+	Node33:<right> -> Node35
+	Node36 [shape = record, label = " {<data> 1.00 | {<left> - | <right> -}} "];
+	Node30:<right> -> Node36
+	Node37 [shape = record, label = " {<data> ^ | {<left> L| <right> R}} "];
+	Node1:<right> -> Node37
+	Node38 [shape = record, label = " {<data> * | {<left> L| <right> R}} "];
+	Node37:<left> -> Node38
+	Node39 [shape = record, label = " {<data> 2.00 | {<left> - | <right> -}} "];
+	Node38:<left> -> Node39
+	Node40 [shape = record, label = " {<data> ^ | {<left> L| <right> R}} "];
+	Node38:<right> -> Node40
+	Node41 [shape = record, label = " {<data> x | {<left> -| <right> -}} "];
+	Node40:<left> -> Node41
+	Node42 [shape = record, label = " {<data> 2.00 | {<left> - | <right> -}} "];
+	Node40:<right> -> Node42
+	Node43 [shape = record, label = " {<data> 2.00 | {<left> - | <right> -}} "];
+	Node37:<right> -> Node43
+	Node44 [shape = record, label = " {<data> * | {<left> L| <right> R}} "];
+	Node0:<right> -> Node44
+	Node45 [shape = record, label = " {<data> + | {<left> L| <right> R}} "];
+	Node44:<left> -> Node45
+	Node46 [shape = record, label = " {<data> * | {<left> L| <right> R}} "];
+	Node45:<left> -> Node46
+	Node47 [shape = record, label = " {<data> * | {<left> L| <right> R}} "];
+	Node46:<left> -> Node47
+	Node48 [shape = record, label = " {<data> 2.00 | {<left> - | <right> -}} "];
+	Node47:<left> -> Node48
+	Node49 [shape = record, label = " {<data> * | {<left> L| <right> R}} "];
+	Node47:<right> -> Node49
+	Node50 [shape = record, label = " {<data> ^ | {<left> L| <right> R}} "];
+	Node49:<left> -> Node50
+	Node51 [shape = record, label = " {<data> x | {<left> -| <right> -}} "];
+	Node50:<left> -> Node51
+	Node52 [shape = record, label = " {<data> - | {<left> L| <right> R}} "];
+	Node50:<right> -> Node52
+	Node53 [shape = record, label = " {<data> 2.00 | {<left> - | <right> -}} "];
+	Node52:<left> -> Node53
+	Node54 [shape = record, label = " {<data> 1.00 | {<left> - | <right> -}} "];
+	Node52:<right> -> Node54
+	Node55 [shape = record, label = " {<data> 1.00 | {<left> - | <right> -}} "];
+	Node49:<right> -> Node55
+	Node56 [shape = record, label = " {<data> x | {<left> -| <right> -}} "];
+	Node46:<right> -> Node56
+	Node57 [shape = record, label = " {<data> * | {<left> L| <right> R}} "];
+	Node45:<right> -> Node57
+	Node58 [shape = record, label = " {<data> ^ | {<left> L| <right> R}} "];
+	Node57:<left> -> Node58
+	Node59 [shape = record, label = " {<data> x | {<left> -| <right> -}} "];
+	Node58:<left> -> Node59
+	Node60 [shape = record, label = " {<data> 2.00 | {<left> - | <right> -}} "];
+	Node58:<right> -> Node60
+	Node61 [shape = record, label = " {<data> 1.00 | {<left> - | <right> -}} "];
+	Node57:<right> -> Node61
+	Node62 [shape = record, label = " {<data> exp | {<left> L| <right> -}} "];
+	Node44:<right> -> Node62
+	Node63 [shape = record, label = " {<data> * | {<left> L| <right> R}} "];
+	Node62:<left> -> Node63
+	Node64 [shape = record, label = " {<data> ^ | {<left> L| <right> R}} "];
+	Node63:<left> -> Node64
+	Node65 [shape = record, label = " {<data> x | {<left> -| <right> -}} "];
+	Node64:<left> -> Node65
+	Node66 [shape = record, label = " {<data> 2.00 | {<left> - | <right> -}} "];
+	Node64:<right> -> Node66
+	Node67 [shape = record, label = " {<data> x | {<left> -| <right> -}} "];
+	Node63:<right> -> Node67
 
 }

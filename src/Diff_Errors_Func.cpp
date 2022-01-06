@@ -6,7 +6,7 @@ int Require(const char sign)
         s++;
     }
     else {
-        SyntaxError(__FUNCTION__);
+        SyntaxError(__FUNCTION__, "");
         printf("Required sign %c\n", sign);
         return SYNTAX_ERROR;
     }
@@ -14,8 +14,8 @@ int Require(const char sign)
     return 0;
 }
 
-int SyntaxError(const char* function)
+int SyntaxError(const char* function, const char* message)
 {
-    printf("SyntaxError: in function %s\n", function);
+    printf("SyntaxError in function %s: %s\n", function, message);
     return SYNTAX_ERROR;
 }

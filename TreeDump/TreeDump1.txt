@@ -2,14 +2,14 @@ digraph Dump
 {
 	"After function: Simplify"
 
-	Node0 [shape = record, label = " {<data> / | {<left> L| <right> R}} "];
-	Node1 [shape = record, label = " {<data> x | {<left> L| <right> R}} "];
+	Node0 [shape = record, label = " {<data> + | {<left> L| <right> R}} "];
+	Node1 [shape = record, label = " {<data> * | {<left> L| <right> R}} "];
 	Node0:<left> -> Node1
-	Node2 [shape = record, label = " {<data> + | {<left> L| <right> R}} "];
-	Node0:<right> -> Node2
-	Node3 [shape = record, label = " {<data> x | {<left> L| <right> R}} "];
-	Node2:<left> -> Node3
-	Node4 [shape = record, label = " {<data> 1.00 | {<left> - | <right> -}} "];
-	Node2:<right> -> Node4
+	Node2 [shape = record, label = " {<data> x | {<left> -| <right> -}} "];
+	Node1:<left> -> Node2
+	Node3 [shape = record, label = " {<data> 2.00 | {<left> - | <right> -}} "];
+	Node1:<right> -> Node3
+	Node4 [shape = record, label = " {<data> 3.00 | {<left> - | <right> -}} "];
+	Node0:<right> -> Node4
 
 }

@@ -50,7 +50,7 @@ int RecursiveTreeDump(Node* node, FILE* dump_fp, int parents_num, bool left_node
     num_of_nodes++;
     int node_number = num_of_nodes;
 
-    if (node->type == OP || node->type == VAR) {
+    if (node->type == OP) {
         fprintf(dump_fp, "\tNode%d [shape = record, label = "
                          "\" {<data> %c | {<left> L| <right> R}} \"];\n",
                          node_number, *(char*)node->data);
@@ -58,21 +58,27 @@ int RecursiveTreeDump(Node* node, FILE* dump_fp, int parents_num, bool left_node
         fprintf(dump_fp, "\tNode%d [shape = record, label = "
                          "\" {<data> %0.2f | {<left> - | <right> -}} \"];\n",
                          node_number, *(double*) node->data);
-    } else if (node->type == OP || node->type == VAR) {
+    } else if (node->type == VAR) {
         fprintf(dump_fp, "\tNode%d [shape = record, label = "
                          "\" {<data> %c | {<left> -| <right> -}} \"];\n",
                          node_number, *(char *) node->data);
+    } else if (node->type == FUNC) { //TODO: где здесь UninitCondition?
+        fprintf(dump_fp, "\tNode%d [shape = record, label = "
+                         "\" {<data> %s | {<left> L| <right> -}} \"];\n",
+                node_number, (char *) node->data);
     }
 
     if (num_of_nodes != 0){
         if (left_node)
-            fprintf(dump_fp, "\tNode%d:<left> -> Node%d\n", parents_num, node_number); //нужно сохранять номер родителя
+            fprintf(dump_fp, "\tNode%d:<left> -> Node%d\n", parents_num, node_number);
         else
             fprintf(dump_fp, "\tNode%d:<right> -> Node%d\n", parents_num, node_number);
     }
-    if (node->right != nullptr && node->left != nullptr) {
+    if (node->left != nullptr && node->right != nullptr) {
         RecursiveTreeDump(node->left, dump_fp, node_number, true);
         RecursiveTreeDump(node->right, dump_fp, node_number, false);
+    } else if (node->left != nullptr && node->right == nullptr) {
+        RecursiveTreeDump(node->left, dump_fp, node_number, true);
     }
 
     return 0;

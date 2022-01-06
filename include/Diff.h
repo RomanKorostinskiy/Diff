@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <math.h>
 
 typedef struct Node {
     void* data;
@@ -17,13 +18,15 @@ typedef struct Node {
 enum Constants {
     ROOT            = -1,
     MAX_FORMULA_LEN = 1024,
-    FIRST_CALL      = -1
+    FIRST_CALL      = -1,
+    MAX_FUNC_LEN   = 4,
 };
 
 enum NodeTypes {
-    NUM = 1,
-    VAR = 2,
-    OP  = 3,
+    NUM  = 1,
+    VAR  = 2,
+    OP   = 3,
+    FUNC = 4,
 };
 
 enum Errors {
@@ -60,6 +63,8 @@ Node* GetP();
 
 Node* GetPow();
 
+Node* GetFunc();
+
 Node* GetN();
 
 Node* GetId();
@@ -84,7 +89,7 @@ int LoopSimplify(Node* root);
 
 int Require(const char sign);
 
-int SyntaxError(const char* function);
+int SyntaxError(const char* function, const char* message);
 
 //---------Diff_Text_Func--------------
 
@@ -94,11 +99,15 @@ int ScanString(char* array);
 
 int PrintTree(Node* node);
 
-int PrintFormula(Node* node, FILE* fp);
-
 int PrintFormulaTex (Node* root);
 
+int PrintFormula(Node* node, FILE* fp);
+
+int PrintOperators(Node* node, FILE* fp);
+
 char* TexFileName(int res_cnt);
+
+int RemoveOldTexFile();
 
 int MakePdfFromTex();
 

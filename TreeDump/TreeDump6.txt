@@ -1,0 +1,7 @@
+digraph Dump
+{
+	"After function: Simplify"
+
+	Node0 [shape = record, label = " {<data> 4.00 | {<left> - | <right> -}} "];
+
+}

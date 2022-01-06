@@ -61,11 +61,46 @@ Node* GetP() //TODO: сделать так, чтобы в степень мож�
         Node *id_node = GetId();
         CHECK_NODE(id_node);
         return id_node;
+    } else if (isalpha(*s) && *s != 'x') {
+        Node *func_node = GetFunc();
+        CHECK_NODE(func_node);
+        return func_node;
     } else {
         Node* n_node = GetN();
         CHECK_NODE(n_node);
         return n_node;
     }
+}
+
+Node* GetFunc()
+{
+    char func_name[MAX_FUNC_LEN];
+    int len = 0;
+
+    while (*s != '(') {
+        func_name[len] = *s;
+        s++;
+        len++;
+
+        if(*s == '\0'){
+            SyntaxError(__FUNCTION__, "That's not a function");
+            return nullptr;
+        }
+    }
+
+    if(len >= MAX_FUNC_LEN){
+        SyntaxError(__FUNCTION__, "Too long function name");
+        return nullptr;
+    }
+
+    func_name[len + 1] = '\0';
+
+    s++;
+    Node* argument = GetE();
+    CHECK_NODE(argument);
+    Require(')');
+
+    return CreateNode(FUNC, func_name, argument, nullptr);
 }
 
 Node* GetPow()
@@ -95,6 +130,12 @@ Node* GetN()
 {
     double val , power;
     const char* old_s = s;
+    double sign = 1;
+
+    if (*s == '-') {
+        sign = -1;
+        s++;
+    }
 
     for (val = 0.0; isdigit(*s); s++)
         val = 10.0 * val + *s - '0';
@@ -105,10 +146,10 @@ Node* GetN()
         power *= 10.0;
     }
 
-    val = val / power;
+    val = val / power * sign;
 
     if(old_s == s){
-        SyntaxError(__FUNCTION__);
+        SyntaxError(__FUNCTION__, "You forgot the number somewhere");
         return nullptr;
     }
 
@@ -120,7 +161,8 @@ Node* GetId()
     char var = 'x';
 
     if (*s != 'x') {
-        SyntaxError(__FUNCTION__);
+        SyntaxError(__FUNCTION__, "You can only use the \"x\" variable "
+                                  "(извините, но таковы правила)");
         return nullptr;
     }
     else {
@@ -140,6 +182,9 @@ Node* CreateNode(int type, void* data, Node* left, Node* right)
     } else if (type == OP || type == VAR) {
         new_node->data = (char*) calloc(1, sizeof(char));
         *(char*) new_node->data = *(char*) data;
+    } else if (type == FUNC) {
+        new_node->data = (char*) calloc(MAX_FUNC_LEN, sizeof(char));
+        memcpy(new_node->data, data, MAX_FUNC_LEN);
     }
 
     new_node->left = left;
@@ -159,11 +204,17 @@ Node* CopyNode(Node* node)
     } else if (node->type == OP || node->type == VAR) {
         new_node->data = (char*) calloc(1, sizeof(char));
         *(char*) new_node->data = *(char*)node->data;
+    } else if (node->type == FUNC) {
+        new_node->data = (char*) calloc(MAX_FUNC_LEN, sizeof(char));
+        memcpy(new_node->data, node->data, MAX_FUNC_LEN);
     }
 
     if (node->left != nullptr && node->right != nullptr) {
         new_node->left = CopyNode(node->left);
         new_node->right = CopyNode(node->right);
+    } else if (node->left != nullptr && node->right == nullptr) {
+        new_node->left = CopyNode(node->left);
+        new_node->right = nullptr;
     }
 
     return new_node;
@@ -186,6 +237,9 @@ int TreeDtor(Node* node)
     if (node->left != nullptr && node->right != nullptr) {
         TreeDtor(node->left);
         TreeDtor(node->right);
+    }
+    else if (node->left != nullptr && node->right == nullptr) {
+        TreeDtor(node->left);
     }
 
     free(node);

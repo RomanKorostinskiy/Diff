@@ -12,6 +12,9 @@ Node* Diff(Node* node)
     } else if (IS_SPEC_OP(node, '+')) {
         char op = '+';
         return CreateNode(OP, &op, Diff(node->left), Diff(node->right));
+    } else if (IS_SPEC_OP(node, '-')) {
+        char op = '-';
+        return CreateNode(OP, &op, Diff(node->left), Diff(node->right));
     } else if (IS_SPEC_OP(node, '*')) {
         char op = '*';
         Node* term1 = CreateNode(OP, &op, Diff(node->left), CopyNode(node->right));
@@ -50,6 +53,9 @@ Node* Diff(Node* node)
 
         op = '/';
         return CreateNode(OP, &op, dividend, divider); //((P')*Q - P*(Q'))/Q^2
+    } else if (IS_SPEC_FUNC(node, "exp")) {
+        char op = '*';
+        return CreateNode(OP, &op, Diff(node->left), CopyNode(node));
     }
 
     return CopyNode(node);
@@ -103,13 +109,15 @@ int Simplify(Node* node, int* smpl_cnt)
             REPLACE_NODE_BY_LEFT_CHILD(node, smpl_cnt);
         else if (IS_RIGHT_SPEC_NUM(node, 0))
             REPLACE_NODE_BY_VALUE(node, smpl_cnt, 1);
-//        else if (IS_LEFT_NUM(node) && IS_RIGHT_NUM(node))
-//            REPLACE_NODE_BY_POW(node, smpl_cnt);
+        else if (IS_LEFT_NUM(node) && IS_RIGHT_NUM(node))
+            REPLACE_NODE_BY_POW(node, smpl_cnt);
     }
 
     if (node->left != nullptr && node->right != nullptr) {
         Simplify(node->left, smpl_cnt);
         Simplify(node->right, smpl_cnt);
+    } else if (node->left != nullptr && node->right == nullptr) {
+        Simplify(node->left, smpl_cnt);
     }
 
     return 0;

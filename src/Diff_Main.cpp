@@ -7,14 +7,14 @@ int main()
     char* string = (char*) calloc(MAX_FORMULA_LEN, sizeof(char));
     ScanFormula(string);
 
+    RemoveOldTexFile();
+
     Node* root = GetG(string);
     CHECK_ROOT(root, string);
     TreeDump(root, "GetG");
     PrintFormulaTex(root);
 
     LoopSimplify(root);
-    PrintTree(root);
-    printf("\n");
     PrintFormulaTex(root);
 
     Node* diff_root = Diff(root);
@@ -22,8 +22,6 @@ int main()
     PrintFormulaTex(diff_root);
 
     LoopSimplify(diff_root);
-    PrintTree(diff_root);
-    printf("\n");
     PrintFormulaTex(diff_root);
 
     MakePdfFromTex();

@@ -42,6 +42,11 @@ node->right->type == VAR
 #define IS_LEFT_VAR(node) \
 node->left->type == VAR
 
+//---------Functions--------------
+
+#define IS_SPEC_FUNC(node, func) \
+node->type == FUNC && !(strcmp(func, (char*)node->data))
+
 //---------Replace_Node--------------
 
 #define REPLACE_NODE_BY_LEFT_CHILD(node, cnt_adr)   \
@@ -120,4 +125,13 @@ do {                                                                            
     *(double *) node->data = *(double*) node->left->data / *(double*) node->right->data;\
     FreeChildNodes(node);                                                               \
     (*cnt_adr)++;                                                                       \
+} while(0)
+
+#define REPLACE_NODE_BY_POW(node, cnt_adr)                                                  \
+do {                                                                                        \
+    node->type = NUM;                                                                       \
+    node->data = (double *) realloc(node->data, sizeof(double));                            \
+    *(double *) node->data = pow(*(double*) node->left->data, *(double*) node->right->data);\
+    FreeChildNodes(node);                                                                   \
+    (*cnt_adr)++;                                                                           \
 } while(0)

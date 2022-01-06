@@ -74,7 +74,7 @@ Node* GetP() //TODO: сделать так, чтобы в степень мож�
 
 Node* GetFunc()
 {
-    char func_name[MAX_FUNC_LEN];
+    char func_name[MAX_FUNC_LEN] = "";
     int len = 0;
 
     while (*s != '(') {
@@ -184,7 +184,7 @@ Node* CreateNode(int type, void* data, Node* left, Node* right)
         *(char*) new_node->data = *(char*) data;
     } else if (type == FUNC) {
         new_node->data = (char*) calloc(MAX_FUNC_LEN, sizeof(char));
-        memcpy(new_node->data, data, MAX_FUNC_LEN);
+        strcpy((char*)new_node->data, (char*)data);
     }
 
     new_node->left = left;

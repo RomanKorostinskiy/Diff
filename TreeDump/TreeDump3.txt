@@ -1,11 +1,7 @@
 digraph Dump
 {
-	"After function: Simplify"
+	"After function: Diff"
 
-	Node0 [shape = record, label = " {<data> + | {<left> L| <right> R}} "];
-	Node1 [shape = record, label = " {<data> 2.00 | {<left> - | <right> -}} "];
-	Node0:<left> -> Node1
-	Node2 [shape = record, label = " {<data> 0.00 | {<left> - | <right> -}} "];
-	Node0:<right> -> Node2
+	Node0 [shape = record, label = " {<data> 0.00 | {<left> - | <right> -}} "];
 
 }

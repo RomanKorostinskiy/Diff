@@ -105,6 +105,12 @@ int PrintFormula(Node* node, FILE* fp);
 
 int PrintOperators(Node* node, FILE* fp);
 
+int PrintExpression(Node* node, FILE* fp);
+
+int PrintMultiplication(Node* node, FILE* fp);
+
+int PrintDivision(Node* node, FILE* fp);
+
 char* TexFileName(int res_cnt);
 
 int RemoveOldTexFile();

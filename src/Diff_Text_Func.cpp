@@ -83,11 +83,23 @@ int PrintFormulaTex (Node* root) //TODO: сделать чтобы можно б
 int PrintFormula(Node* node, FILE* fp)
 {
     if (node->left != nullptr && node->right != nullptr) {
-        PrintOperators(node, fp);
+        if (IS_SPEC_OP(node, '+') || IS_SPEC_OP(node, '-'))
+            PrintExpression(node, fp);
+        else if (IS_SPEC_OP(node, '*'))
+            PrintMultiplication(node, fp);
+        else if (IS_SPEC_OP(node, '/'))
+            PrintDivision(node, fp);
     } else if (IS_NUM(node)) {
-        fprintf(fp, "{%0.2f}", *(double*)node->data);
+        if (*(double*)node->data < 0)
+            fprintf(fp, "{(%0.2f)}", *(double*)node->data);
+        else
+            fprintf(fp, "{%0.2f}", *(double*)node->data);
     } else if (IS_VAR(node)) {
         fprintf(fp, "%c", *(char*)node->data);
+    } else if (IS_FUNC(node)) {
+        fprintf(fp, "%s(", (char*)node->data);
+        PrintFormula(node->left, fp);
+        fprintf(fp, ")");
     }
 
     return 0;
@@ -118,6 +130,41 @@ int PrintOperators(Node* node, FILE* fp)
         fprintf(fp, "}");
     else if (IS_SPEC_OP(node, '+') || IS_SPEC_OP(node, '-'))
         fprintf(fp, ")");
+
+    return 0;
+}
+
+int PrintExpression(Node* node, FILE* fp)
+{
+    fprintf(fp, "(");
+    PrintFormula(node->left, fp);
+    fprintf(fp, "%c", *(char*)node->data);
+    PrintFormula(node->right, fp);
+    fprintf(fp, ")");
+
+    return 0;
+}
+
+int PrintMultiplication(Node* node, FILE* fp)
+{
+    PrintFormula(node->left, fp);
+    fprintf(fp, "\\cdot ");
+    PrintFormula(node->right, fp);
+
+    return 0;
+}
+
+int PrintDivision(Node* node, FILE* fp)
+{
+    fprintf(fp, "\\frac{");
+    PrintFormula(node->left, fp);
+    fprintf(fp, "}");
+
+    fprintf(fp, "{");
+    PrintFormula(node->right, fp);
+    fprintf(fp, "}");
+
+    return 0;
 }
 
 char* TexFileName(int res_cnt)

@@ -44,6 +44,9 @@ node->left->type == VAR
 
 //---------Functions--------------
 
+#define IS_FUNC(node) \
+node->type == FUNC
+
 #define IS_SPEC_FUNC(node, func) \
 node->type == FUNC && !(strcmp(func, (char*)node->data))
 

@@ -33,6 +33,23 @@ int ScanString(char* array)
     return 0;
 }
 
+int DeleteSpaces(char* str)
+{
+    size_t len = strlen(str);
+    size_t i = 0;
+
+    for (size_t j = 0; j < len; j++) {
+        if (!isspace(str[j])) {
+            str[i] = str[j];
+            i++;
+        }
+    }
+
+    str[i] = '\0';
+
+    return 0;
+}
+
 int PrintFormulaTex (Node* root) //TODO: сделать чтобы можно было вписывать все изменения формулы
 {
     static int res_cnt = 0;
@@ -41,7 +58,14 @@ int PrintFormulaTex (Node* root) //TODO: сделать чтобы можно б
 
     if (res_cnt == 0) {
         fprintf(tex_file, "\\documentclass{article}\n"
-                          "\\begin{document}\n");
+                          "\\begin{document}\n\n"
+                          "Your formula:\n");
+    } else if (res_cnt == 1) {
+        fprintf(tex_file, "Simplified formula:\n");
+    } else if (res_cnt == 2) {
+        fprintf(tex_file, "Derivative:\n");
+    } else if (res_cnt == 3) {
+        fprintf(tex_file, "Simplified derivative:\n");
     }
 
     fprintf(tex_file, "\\begin{equation}\n");
@@ -63,6 +87,8 @@ int PrintFormulaTex (Node* root) //TODO: сделать чтобы можно б
 
 int PrintFormula(Node* node, FILE* fp)
 {
+    fprintf(fp, "{");
+
     if (node->left != nullptr && node->right != nullptr) {
         if (IS_SPEC_OP(node, '*'))
             PrintMultiplication(node, fp);
@@ -74,27 +100,29 @@ int PrintFormula(Node* node, FILE* fp)
             PrintOtherOperators(node, fp);
     } else if (IS_NUM(node)) {
         if (*(double*)node->data < 0)
-            fprintf(fp, "{(%0.2f)}", *(double*)node->data);
+            fprintf(fp, "(%0.2f)", *(double*)node->data);
         else
-            fprintf(fp, "{%0.2f}", *(double*)node->data);
+            fprintf(fp, "%0.2f", *(double*)node->data);
     } else if (IS_VAR(node)) {
         fprintf(fp, "%c", *(char*)node->data);
     } else if (IS_FUNC(node)) {
-        fprintf(fp, "%s(", (char*)node->data);
+        fprintf(fp, "%s \\left( ", (char*)node->data);
         PrintFormula(node->left, fp);
-        fprintf(fp, ")");
+        fprintf(fp, "\\right) ");
     }
+
+    fprintf(fp, "}");
 
     return 0;
 }
 
 int PrintExpression(Node* node, FILE* fp)
 {
-    fprintf(fp, "(");
+    fprintf(fp, "\\left( ");
     PrintFormula(node->left, fp);
     fprintf(fp, "%c", *(char*)node->data);
     PrintFormula(node->right, fp);
-    fprintf(fp, ")");
+    fprintf(fp, "\\right) ");
 
     return 0;
 }

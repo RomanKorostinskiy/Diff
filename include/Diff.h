@@ -97,6 +97,8 @@ int ScanFormula(char* str);
 
 int ScanString(char* array);
 
+int DeleteSpaces(char* str);
+
 int PrintTree(Node* node);
 
 int PrintFormulaTex (Node* root);

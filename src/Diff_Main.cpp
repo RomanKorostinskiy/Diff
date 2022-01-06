@@ -6,6 +6,7 @@ int main()
 {
     char* string = (char*) calloc(MAX_FORMULA_LEN, sizeof(char));
     ScanFormula(string);
+    DeleteSpaces(string);
 
     RemoveOldTexFile();
 

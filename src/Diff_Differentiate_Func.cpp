@@ -59,6 +59,24 @@ Node* Diff(Node* node)
     } else if (IS_SPEC_FUNC(node, "ln")) {
         char op = '/';
         return CreateNode(OP, &op, Diff(node->left), CopyNode(node->left));
+    } else if (IS_SPEC_FUNC(node, "sin")) { //sin(E)
+        char func_name[4] = "cos";
+        Node* term1 = CreateNode(FUNC, func_name, CopyNode(node->left), nullptr); //cos(E)
+
+        char op = '*';
+        return CreateNode(OP, &op, Diff(node->left), term1); //(E')*cos(E)
+    } else if (IS_SPEC_FUNC(node, "cos")) { //cos(E)
+        char func_name[4] = "sin";
+        Node* term = CreateNode(FUNC, func_name, CopyNode(node->left), nullptr); //sin(E)
+
+        double minus_val = -1;
+        Node* minus = CreateNode(NUM, &minus_val, nullptr, nullptr);//-1
+
+        char op = '*';
+        Node* term2 = CreateNode(OP, &op, Diff(node->left), term); //(E')*sin(E)
+
+        op = '*';
+        return CreateNode(OP, &op, minus, term2); //-1*(E')*sin(E)
     }
 
     return CopyNode(node);

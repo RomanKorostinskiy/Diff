@@ -58,6 +58,8 @@ Node* GetT();
 
 Node* GetP();
 
+Node* GetPow();
+
 Node* GetN();
 
 Node* GetId();
@@ -89,6 +91,16 @@ int SyntaxError(const char* function);
 int ScanFormula(char* str);
 
 int ScanString(char* array);
+
+int PrintTree(Node* node);
+
+int PrintFormula(Node* node, FILE* fp);
+
+int PrintFormulaTex (Node* root);
+
+char* TexFileName(int res_cnt);
+
+int MakePdfFromTex();
 
 //---------Diff_Dump--------------
 

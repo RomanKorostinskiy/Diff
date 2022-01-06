@@ -1,6 +1,6 @@
 #include "../include/Diff.h"
 
-Node* GetG(const char* string)
+Node* GetG(const char* string) //TODO: сделать возможными пробелы при наборе формулы
 {
     s = string;
 
@@ -45,7 +45,7 @@ Node* GetT()
     return p_node;
 }
 
-Node* GetP()
+Node* GetP() //TODO: сделать так, чтобы в степень можно было возводить выражения
 {
     if (*s == '(') {
         s++;
@@ -53,8 +53,12 @@ Node* GetP()
         CHECK_NODE(e_node);
         Require(')');
         return e_node;
+    } else if (*(s + 1) == '^'){
+        Node *pow_node = GetPow();
+        CHECK_NODE(pow_node);
+        return pow_node;
     } else if (*s == 'x') {
-        Node* id_node = GetId();
+        Node *id_node = GetId();
         CHECK_NODE(id_node);
         return id_node;
     } else {
@@ -62,6 +66,29 @@ Node* GetP()
         CHECK_NODE(n_node);
         return n_node;
     }
+}
+
+Node* GetPow()
+{
+    Node* id_node;
+
+    if (*s == 'x')
+        id_node = GetId(); //TODO: решить как можно вставить сюда GetP без бесконечной рекурсии
+    else
+        id_node = GetN();
+
+    CHECK_NODE(id_node);
+
+    if (*s == '^') {
+        char op = *s;
+        s++;
+
+        Node* p_node = GetP();
+        CHECK_NODE(p_node);
+        id_node = CreateNode(OP, &op, id_node, p_node);
+    }
+
+    return id_node;
 }
 
 Node* GetN()

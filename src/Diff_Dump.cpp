@@ -106,7 +106,7 @@ char* DumpFileName(int dump_cnt, const char* format)
 
     if(dump_file_name == nullptr)
     {
-        printf("In function DumpFileName: can't dump_file_name is nullptr");
+        printf("In function DumpFileName: dump_file_name is nullptr");
         return nullptr;
     }
 

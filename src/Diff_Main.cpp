@@ -10,18 +10,27 @@ int main()
     Node* root = GetG(string);
     CHECK_ROOT(root, string);
     TreeDump(root, "GetG");
+    PrintFormulaTex(root);
 
     LoopSimplify(root);
+    PrintTree(root);
+    printf("\n");
+    PrintFormulaTex(root);
 
     Node* diff_root = Diff(root);
     TreeDump(diff_root, "Diff");
+    PrintFormulaTex(diff_root);
 
     LoopSimplify(diff_root);
+    PrintTree(diff_root);
+    printf("\n");
+    PrintFormulaTex(diff_root);
+
+    MakePdfFromTex();
 
     TreeDtor(root);
     TreeDtor(diff_root);
     free(string);
 
-    //    printf("Node = %ld, Node* = %ld, void* = %ld, char = %ld", sizeof(Node), sizeof(Node*), sizeof(void*), sizeof(char));
     return 0;
 }
